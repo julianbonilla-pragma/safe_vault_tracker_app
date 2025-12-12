@@ -306,6 +306,11 @@ packages:
       url: "https://artifactory.apps.bancolombia.com/artifactory/api/pub/pub-bancolombia/"
     source: hosted
     version: "4.1.2"
+  integration_test:
+    dependency: "direct dev"
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   io:
     dependency: transitive
     description:
