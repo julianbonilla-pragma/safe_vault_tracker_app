@@ -3,7 +3,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../core/errors/invalid_asset_exception.dart';
 
-class Asset extends Equatable{
+class Asset extends Equatable {
   final String id;
   final String name;
   final double value;

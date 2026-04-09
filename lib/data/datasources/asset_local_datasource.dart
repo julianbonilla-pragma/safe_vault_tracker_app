@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:safe_vault_tracker_app/core/errors/invalid_asset_exception.dart';
+import 'package:safe_vault_tracker_app/data/models/encrypted_payload.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../domain/entities/asset.dart';
@@ -39,8 +40,11 @@ class AssetLocalDatasource {
       return [];
     }
 
+    final Map<String, dynamic> map = jsonDecode(encryptedData) as Map<String, dynamic>;
+    final EncryptedPayload payload = EncryptedPayload.fromJson(map);
+    
     // Descifrar en Isolate (no bloquea la UI)
-    final decryptedJson = await _encryptionService.decrypt(encryptedData);
+    final decryptedJson = await _encryptionService.decrypt(payload);
     final List<dynamic> jsonList = jsonDecode(decryptedJson);
     final List<Asset> data = jsonList
         .map((jsonItem) => AssetModel.fromMap(jsonItem as Map<String, dynamic>).toEntity())
@@ -74,8 +78,11 @@ class AssetLocalDatasource {
     final jsonString = jsonEncode(jsonList);
 
     // Cifrar en Isolate (no bloquea la UI)
-    final encryptedData = await _encryptionService.encrypt(jsonString);
+    final payload = await _encryptionService.encrypt(jsonString);
 
-    await _prefs.setString(_assetsKey, encryptedData);
+    await _prefs.setString(
+      _assetsKey,
+      jsonEncode(payload.toJson()),
+    );
   }
 }
