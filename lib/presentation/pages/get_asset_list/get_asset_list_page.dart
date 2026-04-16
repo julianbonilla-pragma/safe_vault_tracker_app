@@ -16,7 +16,15 @@ class _GetAssetListPageState extends State<GetAssetListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Asset List')),
+      appBar: AppBar(
+        title: Text(
+          'Asset List',
+          style: AppTypography.appBarTitle.copyWith(
+            color: AppColors.light,
+          ),
+        ),
+        backgroundColor: AppColors.primary,
+      ),
       body: SafeArea(
         child: Consumer<GetAssetListNotifier>(
           builder: (_, notifier, __) {
@@ -25,6 +33,7 @@ class _GetAssetListPageState extends State<GetAssetListPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: AppColors.primary,
         onPressed: () async {
           final created = await context.push<bool>('/create');
           if (created == true && mounted) {
@@ -34,7 +43,10 @@ class _GetAssetListPageState extends State<GetAssetListPage> {
             ).getAssetList();
           }
         },
-        child: const Icon(Icons.add),
+        child: const Icon(
+          Icons.add,
+          color: AppColors.light,
+        ),
       ),
     );
   }
@@ -44,27 +56,50 @@ class _GetAssetListPageState extends State<GetAssetListPage> {
 
     switch (state) {
       case GetLoadingState():
-        return const Center(child: CircularProgressIndicator());
+        return const Center(
+          child: CircularProgressIndicator(
+            color: AppColors.secondary,
+          ),
+        );
       case GetSuccessState(:final assets):
         if (assets.isEmpty) {
           return const Center(child: Text('No assets found. Add some!'));
         }
 
         return ListView.builder(
+          padding: const EdgeInsets.symmetric(vertical: 16),
           itemCount: assets.length,
           itemBuilder: (context, index) {
             final Asset asset = assets[index];
-            final baseStyle = Theme.of(context).textTheme.bodyMedium ?? const TextStyle();
-            final textStyle = _formattingHandler.apply(asset, baseStyle);
-            final iconData = _formattingHandler.handleIcon(asset.type);
+            final textStyle = _formattingHandler.apply(
+              asset,
+              AppTypography.label,
+            );
+            final icon = _formattingHandler.handleIcon(asset.type);
 
-            return ListTile(
-              leading: Icon(iconData),
-              title: Text(asset.name, style: textStyle),
-              subtitle: Text('Value: \$${asset.value}', style: textStyle),
-              trailing: IconButton(
-                onPressed: () => showDeleteModal(asset, notifier),
-                icon: Icon(Icons.delete, color: Colors.red),
+            return Container(
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              decoration: BoxDecoration(
+                color: AppColors.light,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color.fromARGB(129, 36, 34, 34),
+                    blurRadius: 12,
+                    offset: Offset(0, 0.5),
+                  ),
+                ],
+              ),
+              child: ListTile(
+                leading: CircleAvatar(
+                  child: Icon(icon),
+                ),
+                title: Text(asset.name, style: textStyle),
+                subtitle: Text('Value: ${_formattingHandler.maskValue(asset)}', style: textStyle),
+                trailing: IconButton(
+                  onPressed: () => showDeleteModal(asset, notifier),
+                  icon: Icon(Icons.delete, color: Colors.red),
+                ),
               ),
             );
           },
@@ -79,14 +114,14 @@ class _GetAssetListPageState extends State<GetAssetListPage> {
       await showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('¿Desea eliminar el activo ${asset.name}?'),
+          title: Text('Do you want to delete ${asset.name}?'),
           actions: [
             TextButton(
               onPressed: () async {
                 Navigator.pop(context);
                 await notifier.deleteAsset(asset.id);
               },
-              child: const Text('SÍ'),
+              child: const Text('YES'),
             ),
             TextButton(
               onPressed: () => Navigator.pop(context),

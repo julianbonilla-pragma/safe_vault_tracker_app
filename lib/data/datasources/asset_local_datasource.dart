@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:safe_vault_tracker_app/core/errors/invalid_asset_exception.dart';
 import 'package:safe_vault_tracker_app/data/models/encrypted_payload.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -57,16 +56,6 @@ class AssetLocalDatasource {
     final assets = await getAll();
     assets.removeWhere((asset) => asset.id == id);
     await _saveAllAssets(assets);
-  }
-
-  Future<Asset> getById(String id) async {
-    final assets = await getAll();
-    try {
-      final asset = assets.firstWhere((asset) => asset.id == id);
-      return asset;
-    } catch (e) {
-      throw InvalidAssetException('Asset with id $id not found.');
-    }
   }
 
   Future<void> _saveAllAssets(List<Asset> assets) async {

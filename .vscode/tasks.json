@@ -1,0 +1,29 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Flutter Pub Get (public pub)",
+            "type": "shell",
+            "command": "${workspaceFolder}/tool/flutter_public.sh",
+            "args": ["pub", "get"],
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "Flutter Run (public pub)",
+            "type": "shell",
+            "command": "${workspaceFolder}/tool/flutter_public.sh",
+            "args": ["run"],
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "Flutter Build APK (public pub)",
+            "type": "shell",
+            "command": "${workspaceFolder}/tool/flutter_public.sh",
+            "args": ["build", "apk"],
+            "group": "build",
+            "problemMatcher": []
+        }
+    ]
+}

@@ -1,0 +1,28 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Flutter (public pub) - Debug",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "flutterMode": "debug",
+            "templateFor": "",
+            "env": {
+                "PUB_HOSTED_URL": "https://pub.dev",
+                "FLUTTER_STORAGE_BASE_URL": "https://storage.googleapis.com"
+            }
+        },
+        {
+            "name": "Flutter (public pub) - Release",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "flutterMode": "release",
+            "env": {
+                "PUB_HOSTED_URL": "https://pub.dev",
+                "FLUTTER_STORAGE_BASE_URL": "https://storage.googleapis.com"
+            }
+        }
+    ]
+}

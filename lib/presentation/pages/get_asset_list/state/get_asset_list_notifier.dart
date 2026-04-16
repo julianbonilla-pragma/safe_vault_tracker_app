@@ -17,8 +17,8 @@ class GetAssetListNotifier extends ChangeNotifier {
     } catch (e) {
       final bool isException = e is Exception;
       _updateState(GetErrorState(
-        message: 'Error al cargar la lista de activos',
-        exception: isException ? e : Exception('Error desconocido'),
+        message: 'Error loading asset list',
+        exception: isException ? e : Exception('Unknown error'),
       ));
     }
   }
@@ -31,8 +31,8 @@ class GetAssetListNotifier extends ChangeNotifier {
     } catch (e) {
       final bool isException = e is Exception;
       _updateState(GetErrorState(
-        message: 'Error al eliminar el activo',
-        exception: isException ? e : Exception('Error desconocido'),
+        message: 'Error deleting asset',
+        exception: isException ? e : Exception('Unknown error'),
       ));
     }
   }

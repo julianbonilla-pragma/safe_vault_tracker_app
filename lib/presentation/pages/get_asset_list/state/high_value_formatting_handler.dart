@@ -9,6 +9,9 @@ class HighValueFormattingHandler extends AssetFormattingHandler {
 
   @override
   TextStyle handle(Asset asset, TextStyle baseStyle) {
-    return baseStyle.copyWith(color: Colors.red, fontWeight: FontWeight.bold);
+    return baseStyle.copyWith(
+      color: AppColors.error,
+      fontWeight: FontWeight.bold,
+    );
   }
 }

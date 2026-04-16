@@ -11,9 +11,7 @@ class LoadingState extends CreateAssetState {
 }
 
 class SuccessState extends CreateAssetState {
-  final String? message;
-
-  const SuccessState({this.message});
+  const SuccessState();
 }
 
 class ErrorState extends CreateAssetState {

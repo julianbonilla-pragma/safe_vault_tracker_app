@@ -15,6 +15,12 @@ abstract class AssetFormattingHandler {
 
   bool canHandle(Asset asset);
   TextStyle handle(Asset asset, TextStyle baseStyle);
+
+  String maskValue(Asset asset) {
+    if (asset.type == 'password') return '••••••••';
+    return asset.value.toString();
+  }
+
   IconData handleIcon(String type) {
     IconData iconData;
     switch (type) {

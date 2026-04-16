@@ -9,6 +9,8 @@ class LowValueFormattingHandler extends AssetFormattingHandler {
 
   @override
   TextStyle handle(Asset asset, TextStyle baseStyle) {
-    return baseStyle.copyWith(color: const Color.fromARGB(255, 8, 157, 13));
+    return baseStyle.copyWith(
+      color: AppColors.success,
+    );
   }
 }

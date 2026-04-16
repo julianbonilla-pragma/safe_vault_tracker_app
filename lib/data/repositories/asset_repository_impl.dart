@@ -21,9 +21,4 @@ class AssetRepositoryImpl implements AssetRepository {
   Future<void> delete(String id) async {
     await _datasource.delete(id);
   }
-
-  @override
-  Future<Asset> getById(String id) async {
-    return await _datasource.getById(id);
-  }
 }

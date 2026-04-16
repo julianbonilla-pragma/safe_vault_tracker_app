@@ -7,7 +7,30 @@ class CreateAssetNotifier extends ChangeNotifier {
   CreateAssetState _state = const InitialState();
   CreateAssetState get state => _state;
 
+  String _name = '';
+  String _value = '';
+  String? _type;
+  bool _isFormValid = false;
+
+  bool get isFormValid => _isFormValid;
+  String? get selectedType => _type;
+
   CreateAssetNotifier(this._createAssetUsecase);
+
+  void onNameChanged(String value) {
+    _name = value;
+    _validateForm();
+  }
+
+  void onValueChanged(String value) {
+    _value = value;
+    _validateForm();
+  }
+
+  void onTypeChanged(String value) {
+    _type = value;
+    _validateForm();
+  }
 
   Future<void> createAsset({
     required String name,
@@ -25,14 +48,14 @@ class CreateAssetNotifier extends ChangeNotifier {
       _updateState(const SuccessState());
     } on InvalidAssetException catch (e) {
       _updateState(ErrorState(
-        message: 'Error de validación: ${e.message}',
+        message: 'Validation error: ${e.message}',
         exception: e,
       ));
     } catch (e) {
       final bool isException = e is Exception;
       _updateState(ErrorState(
-        message: 'Error al crear el activo',
-        exception: isException ? e : Exception('Error desconocido'),
+        message: 'Error creating asset',
+        exception: isException ? e : Exception('Unknown error'),
       ));
     }
   }
@@ -42,7 +65,37 @@ class CreateAssetNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  void resetState() {
-    _updateState(const InitialState());
+  void _validateForm() {
+    final bool newValue =
+      _name.trim().isNotEmpty &&
+      _value.trim().isNotEmpty &&
+      _type != null &&
+      _type!.trim().isNotEmpty;
+
+    if (newValue == _isFormValid) return;
+
+    _isFormValid = newValue;
+    notifyListeners();
+  }
+
+  void resetState({bool notify = true}) {
+    _state = const InitialState();
+    if (notify) {
+      notifyListeners();
+    }
+  }
+
+  void resetForm({bool notify = true}) {
+    final bool changed =
+        _name.isNotEmpty || _value.isNotEmpty || _type != null || _isFormValid;
+
+    _name = '';
+    _value = '';
+    _type = null;
+    _isFormValid = false;
+
+    if (notify && changed) {
+      notifyListeners();
+    }
   }
 }
