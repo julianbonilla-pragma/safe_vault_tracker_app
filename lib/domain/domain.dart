@@ -1,4 +1,4 @@
-export 'entities/asset.dart';
+export 'entities/entities.dart';
 export 'repositories/asset_repository.dart';
 export 'services/encryption_service.dart';
 export 'strategies/strategies.dart';

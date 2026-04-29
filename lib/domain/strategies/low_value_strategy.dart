@@ -1,19 +1,18 @@
-import '../../core/errors/invalid_asset_exception.dart';
-import '../entities/asset.dart';
-import 'validation_strategy.dart';
+import 'package:safe_vault_tracker_app/safe_vault_tracker.dart';
 
 /// Estrategia de validación para assets de bajo valor (≤ 10000).
 /// 
 /// Aplica reglas más relajadas para activos de menor valor.
 class LowValueStrategy implements ValidationStrategy {
-  static const double _maxValue = 10000.0;
+  @override
+  bool appliesTo(double value) => value <= AssetConstants.highValue;
   
   @override
   void validate(Asset asset) {
     // Validación 1: El valor debe ser menor o igual a 10000
-    if (asset.value > _maxValue) {
+    if (asset.value > AssetConstants.highValue) {
       throw InvalidAssetException(
-        'Low value assets must be $_maxValue or less. Current value: ${asset.value}'
+        'Low value assets must be ${AssetConstants.highValue} or less. Current value: ${asset.value}'
       );
     }
     

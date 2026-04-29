@@ -5,7 +5,7 @@ class LowValueFormattingHandler extends AssetFormattingHandler {
   const LowValueFormattingHandler({super.nextHandler});
 
   @override
-  bool canHandle(Asset asset) => asset.value <= 10000;
+  bool canHandle(Asset asset) => asset.value <= AssetConstants.highValue;
 
   @override
   TextStyle handle(Asset asset, TextStyle baseStyle) {

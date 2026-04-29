@@ -40,7 +40,7 @@ class AssetModel {
       id: asset.id,
       name: asset.name,
       value: asset.value,
-      type: asset.type,
+      type: asset.type.name,
       isEncrypted: asset.isEncrypted,
     );
   }

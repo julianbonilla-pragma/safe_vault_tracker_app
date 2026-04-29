@@ -9,4 +9,5 @@ abstract interface class ValidationStrategy {
   /// 
   /// Lanza [InvalidAssetException] si la validación falla.
   void validate(Asset asset);
+  bool appliesTo(double value);
 }

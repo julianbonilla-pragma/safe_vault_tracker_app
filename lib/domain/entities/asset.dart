@@ -1,13 +1,12 @@
 import 'package:equatable/equatable.dart';
+import 'package:safe_vault_tracker_app/safe_vault_tracker.dart';
 import 'package:uuid/uuid.dart';
-
-import '../../core/errors/invalid_asset_exception.dart';
 
 class Asset extends Equatable {
   final String id;
   final String name;
   final double value;
-  final String type;
+  final AssetType type;
   final bool isEncrypted;
 
   const Asset._({
@@ -29,16 +28,15 @@ class Asset extends Equatable {
       throw InvalidAssetException('Asset name cannot be empty and value must be greater than zero');
     }
 
-    const validTypes = ['crypto', 'note', 'password'];
-    if (!validTypes.contains(type)) {
-      throw InvalidAssetException('Asset type must be one of the following: ${validTypes.join(', ')}');
+    if (!AssetType.isValid(type)) {
+      throw InvalidAssetException('Asset type must be one of the following: ${AssetType.values.map((e) => e.name).join(', ')}');
     }
 
     return Asset._(
       id: id ?? Uuid().v4(),
       name: name,
       value: value,
-      type: type,
+      type: AssetType.fromString(type),
       isEncrypted: isEncrypted,
     );
   }
@@ -54,7 +52,7 @@ class Asset extends Equatable {
       id: id,
       name: name,
       value: value,
-      type: type,
+      type: AssetType.fromString(type),
       isEncrypted: isEncrypted,
     );
   }

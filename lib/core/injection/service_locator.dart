@@ -38,7 +38,7 @@ Future<void> initServiceLocator() async {
   sl.registerFactory<HighValueStrategy>(() => HighValueStrategy());
   sl.registerFactory<LowValueStrategy>(() => LowValueStrategy());
 
-  sl.registerFactory<ValidationStrategyFactory>(() => ValidationStrategyFactory(sl(), sl()));
+  sl.registerFactory<ValidationStrategyFactory>(() => ValidationStrategyFactory([sl<HighValueStrategy>(), sl<LowValueStrategy>()]));
 
   // Use cases
   sl.registerFactory<CreateAssetUsecase>(() => CreateAssetUsecase(sl(), sl()));
